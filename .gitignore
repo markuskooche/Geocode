@@ -1,4 +1,13 @@
-./vendor
-./phpunit.cache
-./tests/stubs
-./config
+# IDE Configuration
+/.idea
+/.vscode
+
+# PHP Packages
+/vendor
+
+# PHP Tests
+/.phpunit.cache/
+/.phpunit.result.cache/
+
+# Internal Files
+/config

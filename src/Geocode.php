@@ -30,26 +30,23 @@ class Geocode
     /**
      * Create a new Geocode instance.
      *
-     * @param string $driver
-     * @param string $apiKey
      * @return void
      */
-    public function __construct(string $apiKey = '', string $driver = 'openstreetmap')
+    public function __construct()
     {
-        $this->apiKey = $apiKey;
-        $this->driver = $this->configureDriver($driver);
+        $this->apiKey = config('geocode.api_key');
+        $this->driver = $this->configureDriver();
     }
 
     /**
      * Private function to configure the driver from the config.
      * The fallback driver is nominatim openstreetmap.
      *
-     * @param string $driver
      * @return Driver
      */
-    private function configureDriver(string $driver): Driver
+    private function configureDriver(): Driver
     {
-        return match($driver) {
+        return match(config('geocode.driver')) {
             'google' => new GoogleMaps($this->apiKey),
             default => new OpenStreetMap()
         };

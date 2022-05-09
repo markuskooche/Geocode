@@ -7,6 +7,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application as LaravelApplication;
+use Laravel\Lumen\Application as LumenApplication;
 use Markuskooche\Geocode\Facades\Geocode as GeocodeFacade;
 
 /**
@@ -18,7 +19,7 @@ use Markuskooche\Geocode\Facades\Geocode as GeocodeFacade;
  */
 class GeocodeServiceProvider extends ServiceProvider
 {
-/**
+    /**
      * Bootstrap the geocode configuration.
      *
      * @return void
@@ -26,18 +27,18 @@ class GeocodeServiceProvider extends ServiceProvider
      */
     public function boot() : void
     {
-        $source = dirname(__DIR__).'/../../config/geocode.php';
+        if ($this->app instanceof LaravelApplication) {
+            $kernel = $this->app->make(Kernel::class);
+            $kernel->bootstrap();
 
-        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
-            $this->publishes([$source => config_path('geocode.php')]);
+            if ($this->app->runningInConsole()) {
+                $source  = __DIR__.'/../config/geocode.php';
+                info('Loading Geocode configuration from ' . $source);
+                $this->publishes([$source => config_path('geocode.php')], 'config');
+            }
+        } else if ($this->app instanceof LumenApplication) {
+            $this->app->boot();
         }
-
-        $kernel = $this->app->make(Kernel::class);
-
-        $kernel->bootstrap();
-
-
-        //$this->mergeConfigFrom($source, 'geocode');
     }
 
     /**
@@ -55,5 +56,7 @@ class GeocodeServiceProvider extends ServiceProvider
                 $loader->alias('Geocode', GeocodeFacade::class);
             });
         }
+
+        $this->mergeConfigFrom(__DIR__.'/../config/geocode.php', 'geocode');
     }
 }

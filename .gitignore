@@ -8,6 +8,3 @@
 # PHP Tests
 /.phpunit.cache/
 /.phpunit.result.cache/
-
-# Internal Files
-/config

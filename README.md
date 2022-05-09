@@ -60,6 +60,11 @@ $address = [
 ];
 ```
 
+### Export the configuration
+``` php
+php artisan vendor:publish --provider="Markuskooche\Geocode\GeocodeServiceProvider" --tag="config"
+```
+
 
 ## Licence
 Geocode is an open-sourced software licensed under the [MIT license](LICENSE.md).

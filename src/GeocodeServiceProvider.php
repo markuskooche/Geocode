@@ -36,7 +36,9 @@ class GeocodeServiceProvider extends ServiceProvider
                 info('Loading Geocode configuration from ' . $source);
                 $this->publishes([$source => config_path('geocode.php')], 'config');
             }
-        } else if ($this->app instanceof LumenApplication) {
+        }
+        // @phpstan-ignore-next-line
+        else if ($this->app instanceof LumenApplication) {
             $this->app->boot();
         }
     }

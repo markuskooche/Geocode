@@ -34,7 +34,7 @@ class Geocode
      */
     public function __construct()
     {
-        $this->apiKey = config('geocode.api_key');
+        $this->apiKey = config('geocode.api_key') ?? '';
         $this->driver = $this->configureDriver();
     }
 

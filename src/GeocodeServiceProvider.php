@@ -4,9 +4,9 @@ namespace Markuskooche\Geocode;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Foundation\Application as LaravelApplication;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Foundation\Application as LaravelApplication;
 use Laravel\Lumen\Application as LumenApplication;
 use Markuskooche\Geocode\Drivers\Driver;
 use Markuskooche\Geocode\Drivers\GoogleMaps;
@@ -18,7 +18,6 @@ use Markuskooche\Geocode\Facades\Geocode as GeocodeFacade;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class GeocodeServiceProvider extends ServiceProvider
 {
@@ -26,21 +25,22 @@ class GeocodeServiceProvider extends ServiceProvider
      * Bootstrap the geocode configuration.
      *
      * @return void
+     *
      * @throws BindingResolutionException
      */
-    public function boot() : void
+    public function boot(): void
     {
         if ($this->app instanceof LaravelApplication) {
             $kernel = $this->app->make(Kernel::class);
             $kernel->bootstrap();
 
             if ($this->app->runningInConsole()) {
-                $source  = __DIR__.'/../config/geocode.php';
+                $source = __DIR__.'/../config/geocode.php';
                 $this->publishes([$source => config_path('geocode.php')], 'config');
             }
         }
         // @phpstan-ignore-next-line
-        else if ($this->app instanceof LumenApplication) {
+        elseif ($this->app instanceof LumenApplication) {
             $this->app->boot();
         }
     }
@@ -50,9 +50,9 @@ class GeocodeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register() : void
+    public function register(): void
     {
-        $this->app->singleton('geocode', fn() => new Geocode($this->configureDriver()));
+        $this->app->singleton('geocode', fn () => new Geocode($this->configureDriver()));
 
         if ($this->app instanceof LaravelApplication) {
             $this->app->booting(function () {
@@ -72,7 +72,7 @@ class GeocodeServiceProvider extends ServiceProvider
      */
     private function configureDriver(): Driver
     {
-        return match(config('geocode.driver')) {
+        return match (config('geocode.driver')) {
             'google' => new GoogleMaps((string) config('geocode.api_key')),
             default => new OpenStreetMap()
         };

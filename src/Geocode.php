@@ -15,7 +15,6 @@ use Markuskooche\Geocode\Exceptions\ResponseFailedException;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class Geocode
 {
@@ -25,7 +24,7 @@ class Geocode
     /**
      * Create a new Geocode instance.
      *
-     * @param Driver $driver
+     * @param  Driver  $driver
      * @return void
      */
     public function __construct(Driver $driver)
@@ -36,15 +35,16 @@ class Geocode
     /**
      * Geocode a given address.
      *
-     * @param string $street
-     * @param string $number
-     * @param string $city
-     * @param string $zip
+     * @param  string  $street
+     * @param  string  $number
+     * @param  string  $city
+     * @param  string  $zip
      * @return Collection<string, float>
+     *
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    public function coordinates(string $street, string $number, string $city, string $zip) : Collection
+    public function coordinates(string $street, string $number, string $city, string $zip): Collection
     {
         return $this->driver->coordinates($street, $number, $city, $zip);
     }
@@ -52,14 +52,15 @@ class Geocode
     /**
      * Reverse geocode a given coordinate.
      *
-     * @param float $longitude
-     * @param float $latitude
+     * @param  float  $longitude
+     * @param  float  $latitude
      * @return Collection<string, string>
+     *
      * @throws InvalidCoordinateException
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    public function address(float $longitude, float $latitude) : Collection
+    public function address(float $longitude, float $latitude): Collection
     {
         return $this->driver->address($longitude, $latitude);
     }

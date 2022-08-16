@@ -11,16 +11,16 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class GeocodeCoordinatesTest extends TestCase
 {
     /**
      * @test
+     *
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    function it_is_the_coordinates_of_the_white_house_openstreet() : void
+    public function it_is_the_coordinates_of_the_white_house_openstreet(): void
     {
         $street = 'Pennsylvania Avenue Northwest';
         $number = '1917';
@@ -43,10 +43,11 @@ class GeocodeCoordinatesTest extends TestCase
 
     /**
      * @test
+     *
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    function it_is_the_coordinates_of_the_german_parliament_openstreet() : void
+    public function it_is_the_coordinates_of_the_german_parliament_openstreet(): void
     {
         $street = 'Platz der Republik';
         $number = '1';

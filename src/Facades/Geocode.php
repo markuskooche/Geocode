@@ -1,4 +1,5 @@
 <?php
+
 namespace Markuskooche\Geocode\Facades;
 
 use Illuminate\Support\Facades\Facade;
@@ -8,7 +9,6 @@ use Illuminate\Support\Facades\Facade;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class Geocode extends Facade
 {
@@ -17,7 +17,7 @@ class Geocode extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() : string
+    protected static function getFacadeAccessor(): string
     {
         return 'geocode';
     }

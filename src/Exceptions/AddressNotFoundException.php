@@ -10,7 +10,6 @@ use Illuminate\Http\Client\Response;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class AddressNotFoundException extends Exception
 {
@@ -20,14 +19,14 @@ class AddressNotFoundException extends Exception
     /**
      * Create a new exception instance.
      *
-     * @param Response $response
+     * @param  Response  $response
      * @return void
      */
     public function __construct(Response $response)
     {
         $this->response = $response;
 
-        parent::__construct("Address not found");
+        parent::__construct('Address not found');
     }
 
     /**
@@ -35,7 +34,7 @@ class AddressNotFoundException extends Exception
      *
      * @return Response
      */
-    public function getResponse() : Response
+    public function getResponse(): Response
     {
         return $this->response;
     }

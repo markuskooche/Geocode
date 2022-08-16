@@ -9,14 +9,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class InvalidCoordinateTest extends TestCase
 {
     use Coordinate;
 
     /** @test */
-    function it_coordinate_is_valid_on_top_left() : void
+    public function it_coordinate_is_valid_on_top_left(): void
     {
         try {
             $this->checkCoordinate(-180.0, -90.0);
@@ -27,7 +26,7 @@ class InvalidCoordinateTest extends TestCase
     }
 
     /** @test */
-    function it_coordinate_is_valid_on_top_right() : void
+    public function it_coordinate_is_valid_on_top_right(): void
     {
         try {
             $this->checkCoordinate(180.0, -90.0);
@@ -38,7 +37,7 @@ class InvalidCoordinateTest extends TestCase
     }
 
     /** @test */
-    function it_coordinate_is_valid_on_bottom_left() : void
+    public function it_coordinate_is_valid_on_bottom_left(): void
     {
         try {
             $this->checkCoordinate(-180.0, 90.0);
@@ -49,7 +48,7 @@ class InvalidCoordinateTest extends TestCase
     }
 
     /** @test */
-    function it_coordinate_is_valid_on_bottom_right() : void
+    public function it_coordinate_is_valid_on_bottom_right(): void
     {
         try {
             $this->checkCoordinate(180.0, 90.0);
@@ -60,35 +59,35 @@ class InvalidCoordinateTest extends TestCase
     }
 
     /** @test */
-    function it_longitude_throws_exception_if_its_to_low() : void
+    public function it_longitude_throws_exception_if_its_to_low(): void
     {
         $this->expectException(InvalidCoordinateException::class);
         $this->checkCoordinate(-180.0000000001, 0.0);
     }
 
     /** @test */
-    function it_longitude_throws_exception_if_its_to_high() : void
+    public function it_longitude_throws_exception_if_its_to_high(): void
     {
         $this->expectException(InvalidCoordinateException::class);
         $this->checkCoordinate(180.0000000001, 0.0);
     }
 
     /** @test */
-    function it_latitude_throws_exception_if_its_to_low() : void
+    public function it_latitude_throws_exception_if_its_to_low(): void
     {
         $this->expectException(InvalidCoordinateException::class);
         $this->checkCoordinate(0.0, -90.0000000001);
     }
 
     /** @test */
-    function it_latitude_throws_exception_if_its_to_high() : void
+    public function it_latitude_throws_exception_if_its_to_high(): void
     {
         $this->expectException(InvalidCoordinateException::class);
         $this->checkCoordinate(0.0, 90.0000000001);
     }
 
     /** @test */
-    function it_invalid_coordinate_exception_returns_correct_values() : void
+    public function it_invalid_coordinate_exception_returns_correct_values(): void
     {
         $exception = new InvalidCoordinateException(180.1, 90.1);
         $this->assertEquals(180.1, $exception->getLongitude());

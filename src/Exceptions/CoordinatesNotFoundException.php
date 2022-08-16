@@ -10,7 +10,6 @@ use Illuminate\Http\Client\Response;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class CoordinatesNotFoundException extends Exception
 {
@@ -20,14 +19,14 @@ class CoordinatesNotFoundException extends Exception
     /**
      * Create a new exception instance.
      *
-     * @param Response $response
+     * @param  Response  $response
      * @return void
      */
     public function __construct(Response $response)
     {
         $this->response = $response;
 
-        parent::__construct("Coordinates not found");
+        parent::__construct('Coordinates not found');
     }
 
     /**
@@ -35,7 +34,7 @@ class CoordinatesNotFoundException extends Exception
      *
      * @return Response
      */
-    public function getResponse() : Response
+    public function getResponse(): Response
     {
         return $this->response;
     }

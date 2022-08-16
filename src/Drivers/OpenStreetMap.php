@@ -4,9 +4,9 @@ namespace Markuskooche\Geocode\Drivers;
 
 use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Support\Collection;
+use Markuskooche\Geocode\Exceptions\AddressNotFoundException;
 use Markuskooche\Geocode\Exceptions\CoordinatesNotFoundException;
 use Markuskooche\Geocode\Exceptions\InvalidCoordinateException;
-use Markuskooche\Geocode\Exceptions\AddressNotFoundException;
 use Markuskooche\Geocode\Exceptions\ResponseFailedException;
 use Markuskooche\Geocode\Traits\Address;
 use Markuskooche\Geocode\Traits\Coordinate;
@@ -16,7 +16,6 @@ use Markuskooche\Geocode\Traits\Coordinate;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class OpenStreetMap implements Driver
 {
@@ -41,15 +40,16 @@ class OpenStreetMap implements Driver
      * - (float) longitude
      * - (float) latitude
      *
-     * @param string $street
-     * @param string $number
-     * @param string $city
-     * @param string $zip
+     * @param  string  $street
+     * @param  string  $number
+     * @param  string  $city
+     * @param  string  $zip
      * @return Collection<string, float>
+     *
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    public function coordinates(string $street, string $number, string $city, string $zip) : Collection
+    public function coordinates(string $street, string $number, string $city, string $zip): Collection
     {
         $response = $this->http->get('https://nominatim.openstreetmap.org/search', [
             'addressdetails' => 1,
@@ -60,7 +60,7 @@ class OpenStreetMap implements Driver
         ]);
 
         // Check if the response has failed or is not ok
-        if ($response->failed() || !$response->ok()) {
+        if ($response->failed() || ! $response->ok()) {
             throw new ResponseFailedException($response);
         }
 
@@ -77,13 +77,13 @@ class OpenStreetMap implements Driver
         $coordinates = new Collection($data[0]);
 
         // Check if the coordinates has all necessary keys
-        if (!$coordinates->has($keys)) {
+        if (! $coordinates->has($keys)) {
             throw new CoordinatesNotFoundException($response);
         }
 
         return new Collection([
             'longitude' => $coordinates->get('lon'),
-            'latitude'  => $coordinates->get('lat')
+            'latitude' => $coordinates->get('lat'),
         ]);
     }
 
@@ -95,14 +95,15 @@ class OpenStreetMap implements Driver
      * - (string) city
      * - (string) zip
      *
-     * @param float $longitude
-     * @param float $latitude
+     * @param  float  $longitude
+     * @param  float  $latitude
      * @return Collection<string, string>
+     *
      * @throws InvalidCoordinateException
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    public function address(float $longitude, float $latitude) : Collection
+    public function address(float $longitude, float $latitude): Collection
     {
         $this->checkCoordinate($longitude, $latitude);
 
@@ -110,11 +111,11 @@ class OpenStreetMap implements Driver
         $response = $this->http->get('https://nominatim.openstreetmap.org/reverse', [
             'lat' => $latitude,
             'lon' => $longitude,
-            'format' => 'jsonv2'
+            'format' => 'jsonv2',
         ]);
 
         // Check if the response has failed or is not ok
-        if ($response->failed() || !$response->ok()) {
+        if ($response->failed() || ! $response->ok()) {
             throw new ResponseFailedException($response);
         }
 
@@ -123,7 +124,7 @@ class OpenStreetMap implements Driver
         $keys = ['road', 'house_number', 'city', 'postcode'];
 
         // Check if the address was found
-        if ($data->has('error') || !$data->has('address')) {
+        if ($data->has('error') || ! $data->has('address')) {
             throw new AddressNotFoundException($response);
         }
 
@@ -131,15 +132,15 @@ class OpenStreetMap implements Driver
         $address = new Collection($data->get('address'));
 
         // Check if the address has all necessary keys
-        if (!$address->has($keys)) {
+        if (! $address->has($keys)) {
             throw new AddressNotFoundException($response);
         }
 
         return new Collection([
             'street' => $address->get('road'),
             'number' => $address->get('house_number'),
-            'city'   => $address->get('city'),
-            'zip'    => $address->get('postcode')
+            'city' => $address->get('city'),
+            'zip' => $address->get('postcode'),
         ]);
     }
 }

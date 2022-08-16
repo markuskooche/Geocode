@@ -15,6 +15,6 @@ return [
     |
     */
 
-    'driver'  => env('GEOCODE_DRIVER', 'openstreet'),
+    'driver' => env('GEOCODE_DRIVER', 'openstreet'),
     'api_key' => env('GEOCODE_API_KEY', ''),
 ];

@@ -13,7 +13,6 @@ use Markuskooche\Geocode\Exceptions\ResponseFailedException;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 interface Driver
 {
@@ -23,15 +22,16 @@ interface Driver
      * - (float) longitude
      * - (float) latitude
      *
-     * @param string $street
-     * @param string $number
-     * @param string $city
-     * @param string $zip
+     * @param  string  $street
+     * @param  string  $number
+     * @param  string  $city
+     * @param  string  $zip
      * @return Collection<string, float>
+     *
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    public function coordinates(string $street, string $number, string $city, string $zip) : Collection;
+    public function coordinates(string $street, string $number, string $city, string $zip): Collection;
 
     /**
      * Reverse geocode a given coordinate.
@@ -41,13 +41,13 @@ interface Driver
      * - (string) city
      * - (string) zip
      *
-     * @param float $longitude
-     * @param float $latitude
+     * @param  float  $longitude
+     * @param  float  $latitude
      * @return Collection<string, string>
+     *
      * @throws InvalidCoordinateException
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    public function address(float $longitude, float $latitude) : Collection;
-
+    public function address(float $longitude, float $latitude): Collection;
 }

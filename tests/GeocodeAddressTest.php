@@ -12,17 +12,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class GeocodeAddressTest extends TestCase
 {
     /**
      * @test
+     *
      * @throws InvalidCoordinateException
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    function it_is_the_address_of_the_white_house_openstreet() : void
+    public function it_is_the_address_of_the_white_house_openstreet(): void
     {
         $longitude = -77.03652952864073;
         $latitude = 38.897675909606384;
@@ -38,11 +38,12 @@ class GeocodeAddressTest extends TestCase
 
     /**
      * @test
+     *
      * @throws InvalidCoordinateException
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    function it_is_the_address_of_the_german_parliament_openstreet() : void
+    public function it_is_the_address_of_the_german_parliament_openstreet(): void
     {
         $longitude = 13.375690194757492;
         $latitude = 52.51827801018423;

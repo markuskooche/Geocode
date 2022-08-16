@@ -16,7 +16,6 @@ use Markuskooche\Geocode\Traits\Coordinate;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class GoogleMaps implements Driver
 {
@@ -31,7 +30,7 @@ class GoogleMaps implements Driver
     /**
      * Instantiate a new HttpFactory instance.
      *
-     * @param string $apiKey
+     * @param  string  $apiKey
      * @return void
      */
     public function __construct(string $apiKey)
@@ -46,15 +45,16 @@ class GoogleMaps implements Driver
      * - (float) longitude
      * - (float) latitude
      *
-     * @param string $street
-     * @param string $number
-     * @param string $city
-     * @param string $zip
+     * @param  string  $street
+     * @param  string  $number
+     * @param  string  $city
+     * @param  string  $zip
      * @return Collection<string, float>
+     *
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    public function coordinates(string $street, string $number, string $city, string $zip) : Collection
+    public function coordinates(string $street, string $number, string $city, string $zip): Collection
     {
         $response = $this->http->get('https://maps.googleapis.com/maps/api/geocode/json', [
             'address' => $this->toReadableAddress($street, $number, $city, $zip),
@@ -62,7 +62,7 @@ class GoogleMaps implements Driver
         ]);
 
         // Check if the response has failed or is not ok
-        if ($response->failed() || !$response->ok()) {
+        if ($response->failed() || ! $response->ok()) {
             throw new ResponseFailedException($response);
         }
 
@@ -70,7 +70,7 @@ class GoogleMaps implements Driver
         $data = $response->collect();
         $keys = ['lng', 'lat'];
 
-        $results = $data->get('results') ;
+        $results = $data->get('results');
 
         // Check if the coordinates was found
         if (is_null($results) || count($results) === 0 || $data->get('status') !== 'OK') {
@@ -81,13 +81,13 @@ class GoogleMaps implements Driver
         $coordinates = new Collection($data['results'][0]['geometry']['location']);
 
         // Check if the coordinates has all necessary keys
-        if (!$coordinates->has($keys)) {
+        if (! $coordinates->has($keys)) {
             throw new CoordinatesNotFoundException($response);
         }
 
         return new Collection([
             'longitude' => $coordinates->get('lng'),
-            'latitude'  => $coordinates->get('lat')
+            'latitude' => $coordinates->get('lat'),
         ]);
     }
 
@@ -99,14 +99,15 @@ class GoogleMaps implements Driver
      * - (string) city
      * - (string) zip
      *
-     * @param float $longitude
-     * @param float $latitude
+     * @param  float  $longitude
+     * @param  float  $latitude
      * @return Collection<string, string>
+     *
      * @throws InvalidCoordinateException
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    public function address(float $longitude, float $latitude) : Collection
+    public function address(float $longitude, float $latitude): Collection
     {
         $this->checkCoordinate($longitude, $latitude);
 
@@ -117,13 +118,13 @@ class GoogleMaps implements Driver
         ]);
 
         // Check if the response has failed or is not ok
-        if ($response->failed() || !$response->ok()) {
+        if ($response->failed() || ! $response->ok()) {
             throw new ResponseFailedException($response);
         }
 
         // Initialize necessary variables
         $data = $response->collect();
-        $results = $data->get('results') ;
+        $results = $data->get('results');
 
         // Check if the coordinates was found
         if (is_null($results) || count($results) === 0 || $data->get('status') !== 'OK') {
@@ -133,7 +134,7 @@ class GoogleMaps implements Driver
         // Initialize the coordinates collection
         $address = new Collection($data['results'][0]);
 
-        if (!$address->has('address_components')) {
+        if (! $address->has('address_components')) {
             throw new AddressNotFoundException($response);
         }
 
@@ -153,11 +154,11 @@ class GoogleMaps implements Driver
             $types = $component['types'];
             if (in_array('route', $types)) {
                 $street = $component['long_name'];
-            } else if (in_array('street_number', $types)) {
+            } elseif (in_array('street_number', $types)) {
                 $number = $component['long_name'];
-            } else if (in_array('locality', $types)) {
+            } elseif (in_array('locality', $types)) {
                 $city = $component['long_name'];
-            } else if (in_array('postal_code', $types)) {
+            } elseif (in_array('postal_code', $types)) {
                 $zip = $component['long_name'];
             }
         }
@@ -165,8 +166,8 @@ class GoogleMaps implements Driver
         return new Collection([
             'street' => $street,
             'number' => $number,
-            'city'   => $city,
-            'zip'    => $zip
+            'city' => $city,
+            'zip' => $zip,
         ]);
     }
 }

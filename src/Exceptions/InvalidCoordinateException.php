@@ -9,7 +9,6 @@ use Exception;
  *
  * @author Markus Koch
  * @license MIT
- * @package Markuskooche\Geocode
  */
 class InvalidCoordinateException extends Exception
 {
@@ -22,8 +21,8 @@ class InvalidCoordinateException extends Exception
     /**
      * Create a new exception instance.
      *
-     * @param float $longitude
-     * @param float $latitude
+     * @param  float  $longitude
+     * @param  float  $latitude
      * @return void
      */
     public function __construct(float $longitude, float $latitude)
@@ -39,7 +38,7 @@ class InvalidCoordinateException extends Exception
      *
      * @return float
      */
-    public function getLongitude() : float
+    public function getLongitude(): float
     {
         return $this->longitude;
     }
@@ -49,7 +48,7 @@ class InvalidCoordinateException extends Exception
      *
      * @return float
      */
-    public function getLatitude() : float
+    public function getLatitude(): float
     {
         return $this->latitude;
     }

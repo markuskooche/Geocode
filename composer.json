@@ -27,7 +27,8 @@
         "phpunit/phpunit": "^9.5",
         "nunomaduro/larastan": "^2.1.4",
         "orchestra/testbench": "^7.4",
-        "laravel/lumen-framework": "^9.0"
+        "laravel/lumen-framework": "^9.0",
+        "laravel/pint": "^1.1"
     },
     "minimum-stability": "stable",
     "autoload": {

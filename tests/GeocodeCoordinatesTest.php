@@ -2,6 +2,7 @@
 
 namespace Markuskooche\Geocode\Tests;
 
+use Markuskooche\Geocode\Drivers\OpenStreetMap;
 use Markuskooche\Geocode\Exceptions\CoordinatesNotFoundException;
 use Markuskooche\Geocode\Exceptions\ResponseFailedException;
 use Markuskooche\Geocode\Geocode;
@@ -19,14 +20,14 @@ class GeocodeCoordinatesTest extends TestCase
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    function it_is_the_coordinates_of_the_white_house() : void
+    function it_is_the_coordinates_of_the_white_house_openstreet() : void
     {
         $street = 'Pennsylvania Avenue Northwest';
         $number = '1917';
         $city = 'Washington';
         $zip = '20500';
 
-        $geocode = new Geocode();
+        $geocode = new Geocode(new OpenStreetMap());
         $response = $geocode->coordinates($street, $number, $city, $zip);
 
         $longitude = (float) $response->get('longitude') ?: null;
@@ -45,14 +46,14 @@ class GeocodeCoordinatesTest extends TestCase
      * @throws ResponseFailedException
      * @throws CoordinatesNotFoundException
      */
-    function it_is_the_coordinates_of_the_german_parliament() : void
+    function it_is_the_coordinates_of_the_german_parliament_openstreet() : void
     {
         $street = 'Platz der Republik';
         $number = '1';
         $city = 'Berlin';
         $zip = '10557';
 
-        $geocode = new Geocode();
+        $geocode = new Geocode(new OpenStreetMap());
         $response = $geocode->coordinates($street, $number, $city, $zip);
 
         $longitude = (float) $response->get('longitude') ?: null;

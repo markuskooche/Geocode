@@ -4,8 +4,6 @@ namespace Markuskooche\Geocode;
 
 use Illuminate\Support\Collection;
 use Markuskooche\Geocode\Drivers\Driver;
-use Markuskooche\Geocode\Drivers\GoogleMaps;
-use Markuskooche\Geocode\Drivers\OpenStreetMap;
 use Markuskooche\Geocode\Exceptions\AddressNotFoundException;
 use Markuskooche\Geocode\Exceptions\CoordinatesNotFoundException;
 use Markuskooche\Geocode\Exceptions\InvalidCoordinateException;
@@ -24,32 +22,15 @@ class Geocode
     /** @var Driver */
     protected Driver $driver;
 
-    /** @var string */
-    protected string $apiKey;
-
     /**
      * Create a new Geocode instance.
      *
+     * @param Driver $driver
      * @return void
      */
-    public function __construct()
+    public function __construct(Driver $driver)
     {
-        $this->apiKey = config('geocode.api_key') ?? '';
-        $this->driver = $this->configureDriver();
-    }
-
-    /**
-     * Private function to configure the driver from the config.
-     * The fallback driver is nominatim openstreetmap.
-     *
-     * @return Driver
-     */
-    private function configureDriver(): Driver
-    {
-        return match(config('geocode.driver')) {
-            'google' => new GoogleMaps($this->apiKey),
-            default => new OpenStreetMap()
-        };
+        $this->driver = $driver;
     }
 
     /**

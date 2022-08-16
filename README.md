@@ -19,7 +19,7 @@ $zip = '20500';
       
 // You only need api key for the google maps driver.
 // The standard driver will use the openstreet maps api.  
-$geocode = new Geocode('<api-key>', '<driver>');
+$geocode = new Geocode(<driver_instance>);
 $coordinates = $geocode->coordinates($street, $number, $city, $zip);
 ```
 ``` php
@@ -44,7 +44,7 @@ $latitude = 38.9004915;
 
 // You only need api key for the google maps driver.
 // The standard driver will use the openstreet maps api.
-$geocode = new Geocode('<api-key>', '<driver>');
+$geocode = new Geocode(<driver_instance>);
 $address = $geocode->address($longitude, $latitude);
 ```
 ``` php

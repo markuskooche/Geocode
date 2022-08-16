@@ -8,6 +8,9 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application as LaravelApplication;
 use Laravel\Lumen\Application as LumenApplication;
+use Markuskooche\Geocode\Drivers\Driver;
+use Markuskooche\Geocode\Drivers\GoogleMaps;
+use Markuskooche\Geocode\Drivers\OpenStreetMap;
 use Markuskooche\Geocode\Facades\Geocode as GeocodeFacade;
 
 /**
@@ -33,7 +36,6 @@ class GeocodeServiceProvider extends ServiceProvider
 
             if ($this->app->runningInConsole()) {
                 $source  = __DIR__.'/../config/geocode.php';
-                info('Loading Geocode configuration from ' . $source);
                 $this->publishes([$source => config_path('geocode.php')], 'config');
             }
         }
@@ -50,7 +52,7 @@ class GeocodeServiceProvider extends ServiceProvider
      */
     public function register() : void
     {
-        $this->app->singleton('geocode', fn() => new Geocode());
+        $this->app->singleton('geocode', fn() => new Geocode($this->configureDriver()));
 
         if ($this->app instanceof LaravelApplication) {
             $this->app->booting(function () {
@@ -60,5 +62,19 @@ class GeocodeServiceProvider extends ServiceProvider
         }
 
         $this->mergeConfigFrom(__DIR__.'/../config/geocode.php', 'geocode');
+    }
+
+    /**
+     * Private function to configure the driver from the config.
+     * The fallback driver is nominatim openstreetmap.
+     *
+     * @return Driver
+     */
+    private function configureDriver(): Driver
+    {
+        return match(config('geocode.driver')) {
+            'google' => new GoogleMaps((string) config('geocode.api_key')),
+            default => new OpenStreetMap()
+        };
     }
 }

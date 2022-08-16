@@ -2,6 +2,7 @@
 
 namespace Markuskooche\Geocode\Tests;
 
+use Markuskooche\Geocode\Drivers\OpenStreetMap;
 use Markuskooche\Geocode\Exceptions\AddressNotFoundException;
 use Markuskooche\Geocode\Exceptions\InvalidCoordinateException;
 use Markuskooche\Geocode\Exceptions\ResponseFailedException;
@@ -21,12 +22,12 @@ class GeocodeAddressTest extends TestCase
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    function it_is_the_address_of_the_white_house() : void
+    function it_is_the_address_of_the_white_house_openstreet() : void
     {
         $longitude = -77.03652952864073;
         $latitude = 38.897675909606384;
 
-        $geocode = new Geocode();
+        $geocode = new Geocode(new OpenStreetMap());
         $response = $geocode->address($longitude, $latitude);
 
         $this->assertEquals('Pennsylvania Avenue Northwest', $response->get('street'));
@@ -41,12 +42,12 @@ class GeocodeAddressTest extends TestCase
      * @throws ResponseFailedException
      * @throws AddressNotFoundException
      */
-    function it_is_the_address_of_the_german_parliament() : void
+    function it_is_the_address_of_the_german_parliament_openstreet() : void
     {
         $longitude = 13.375690194757492;
         $latitude = 52.51827801018423;
 
-        $geocode = new Geocode();
+        $geocode = new Geocode(new OpenStreetMap());
         $response = $geocode->address($longitude, $latitude);
 
         $this->assertEquals('Platz der Republik', $response->get('street'));

@@ -16,5 +16,5 @@ return [
     */
 
     'driver'  => env('GEOCODE_DRIVER', 'openstreet'),
-    'api_key' => env('GEOCODE_API_KEY', null),
+    'api_key' => env('GEOCODE_API_KEY', ''),
 ];

@@ -20,7 +20,7 @@ class InvalidCoordinateTest extends TestCase
         try {
             $this->checkCoordinate(-180.0, -90.0);
             $this->assertTrue(true);
-        } catch (InvalidCoordinateException $e) {
+        } catch (InvalidCoordinateException) {
             $this->fail('Coordinate is valid on top left');
         }
     }
@@ -31,7 +31,7 @@ class InvalidCoordinateTest extends TestCase
         try {
             $this->checkCoordinate(180.0, -90.0);
             $this->assertTrue(true);
-        } catch (InvalidCoordinateException $e) {
+        } catch (InvalidCoordinateException) {
             $this->fail('Coordinate is valid on top right');
         }
     }
@@ -42,7 +42,7 @@ class InvalidCoordinateTest extends TestCase
         try {
             $this->checkCoordinate(-180.0, 90.0);
             $this->assertTrue(true);
-        } catch (InvalidCoordinateException $e) {
+        } catch (InvalidCoordinateException) {
             $this->fail('Coordinate is valid on bottom left');
         }
     }
@@ -53,7 +53,7 @@ class InvalidCoordinateTest extends TestCase
         try {
             $this->checkCoordinate(180.0, 90.0);
             $this->assertTrue(true);
-        } catch (InvalidCoordinateException $e) {
+        } catch (InvalidCoordinateException) {
             $this->fail('Coordinate is valid on bottom right');
         }
     }
@@ -89,8 +89,8 @@ class InvalidCoordinateTest extends TestCase
     /** @test */
     public function it_invalid_coordinate_exception_returns_correct_values(): void
     {
-        $exception = new InvalidCoordinateException(180.1, 90.1);
-        $this->assertEquals(180.1, $exception->getLongitude());
-        $this->assertEquals(90.1, $exception->getLatitude());
+        $invalidCoordinateException = new InvalidCoordinateException(180.1, 90.1);
+        $this->assertEquals(180.1, $invalidCoordinateException->getLongitude());
+        $this->assertEquals(90.1, $invalidCoordinateException->getLatitude());
     }
 }

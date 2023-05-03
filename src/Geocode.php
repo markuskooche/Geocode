@@ -18,13 +18,11 @@ use Markuskooche\Geocode\Exceptions\ResponseFailedException;
  */
 class Geocode
 {
-    /** @var Driver */
     protected Driver $driver;
 
     /**
      * Create a new Geocode instance.
      *
-     * @param  Driver  $driver
      * @return void
      */
     public function __construct(Driver $driver)
@@ -35,10 +33,6 @@ class Geocode
     /**
      * Geocode a given address.
      *
-     * @param  string  $street
-     * @param  string  $number
-     * @param  string  $city
-     * @param  string  $zip
      * @return Collection<string, float>
      *
      * @throws ResponseFailedException
@@ -52,8 +46,6 @@ class Geocode
     /**
      * Reverse geocode a given coordinate.
      *
-     * @param  float  $longitude
-     * @param  float  $latitude
      * @return Collection<string, string>
      *
      * @throws InvalidCoordinateException

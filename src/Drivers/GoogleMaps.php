@@ -21,16 +21,13 @@ class GoogleMaps implements Driver
 {
     use Coordinate, Address;
 
-    /** @var HttpFactory */
     protected HttpFactory $http;
 
-    /** @var string */
     protected string $apiKey;
 
     /**
      * Instantiate a new HttpFactory instance.
      *
-     * @param  string  $apiKey
      * @return void
      */
     public function __construct(string $apiKey)
@@ -45,10 +42,6 @@ class GoogleMaps implements Driver
      * - (float) longitude
      * - (float) latitude
      *
-     * @param  string  $street
-     * @param  string  $number
-     * @param  string  $city
-     * @param  string  $zip
      * @return Collection<string, float>
      *
      * @throws ResponseFailedException
@@ -73,21 +66,21 @@ class GoogleMaps implements Driver
         $results = $data->get('results');
 
         // Check if the coordinates was found
-        if (is_null($results) || count($results) === 0 || $data->get('status') !== 'OK') {
+        if (is_null($results) || (is_countable($results) ? count($results) : 0) === 0 || $data->get('status') !== 'OK') {
             throw new CoordinatesNotFoundException($response);
         }
 
         // Initialize the coordinates collection
-        $coordinates = new Collection($data['results'][0]['geometry']['location']);
+        $collection = new Collection($data['results'][0]['geometry']['location']);
 
         // Check if the coordinates has all necessary keys
-        if (! $coordinates->has($keys)) {
+        if (! $collection->has($keys)) {
             throw new CoordinatesNotFoundException($response);
         }
 
         return new Collection([
-            'longitude' => $coordinates->get('lng'),
-            'latitude' => $coordinates->get('lat'),
+            'longitude' => $collection->get('lng'),
+            'latitude' => $collection->get('lat'),
         ]);
     }
 
@@ -99,8 +92,6 @@ class GoogleMaps implements Driver
      * - (string) city
      * - (string) zip
      *
-     * @param  float  $longitude
-     * @param  float  $latitude
      * @return Collection<string, string>
      *
      * @throws InvalidCoordinateException
@@ -127,22 +118,22 @@ class GoogleMaps implements Driver
         $results = $data->get('results');
 
         // Check if the coordinates was found
-        if (is_null($results) || count($results) === 0 || $data->get('status') !== 'OK') {
+        if (is_null($results) || (is_countable($results) ? count($results) : 0) === 0 || $data->get('status') !== 'OK') {
             throw new AddressNotFoundException($response);
         }
 
         // Initialize the coordinates collection
-        $address = new Collection($data['results'][0]);
+        $collection = new Collection($data['results'][0]);
 
-        if (! $address->has('address_components')) {
+        if (! $collection->has('address_components')) {
             throw new AddressNotFoundException($response);
         }
 
         // Initialize the address components collection
-        $addressComponents = $address->get('address_components');
+        $addressComponents = $collection->get('address_components');
 
         // Check if the address has minimum required components
-        if (count($addressComponents) < 4) {
+        if ((is_countable($addressComponents) ? count($addressComponents) : 0) < 4) {
             throw new AddressNotFoundException($response);
         }
 
@@ -150,16 +141,16 @@ class GoogleMaps implements Driver
         $street = $number = $city = $zip = null;
 
         // Loop through the address components and fill the variables
-        foreach ($addressComponents as $component) {
-            $types = $component['types'];
+        foreach ($addressComponents as $addressComponent) {
+            $types = $addressComponent['types'];
             if (in_array('route', $types)) {
-                $street = $component['long_name'];
+                $street = $addressComponent['long_name'];
             } elseif (in_array('street_number', $types)) {
-                $number = $component['long_name'];
+                $number = $addressComponent['long_name'];
             } elseif (in_array('locality', $types)) {
-                $city = $component['long_name'];
+                $city = $addressComponent['long_name'];
             } elseif (in_array('postal_code', $types)) {
-                $zip = $component['long_name'];
+                $zip = $addressComponent['long_name'];
             }
         }
 

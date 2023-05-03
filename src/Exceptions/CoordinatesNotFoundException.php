@@ -19,7 +19,6 @@ class CoordinatesNotFoundException extends Exception
     /**
      * Create a new exception instance.
      *
-     * @param  Response  $response
      * @return void
      */
     public function __construct(Response $response)
@@ -31,8 +30,6 @@ class CoordinatesNotFoundException extends Exception
 
     /**
      * Get the response.
-     *
-     * @return Response
      */
     public function getResponse(): Response
     {

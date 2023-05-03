@@ -12,12 +12,6 @@ trait Address
 {
     /**
      * Transforms the address to a readable string.
-     *
-     * @param  string  $street
-     * @param  string  $number
-     * @param  string  $city
-     * @param  string  $zip
-     * @return string
      */
     private function toReadableAddress(string $street, string $number, string $city, string $zip): string
     {

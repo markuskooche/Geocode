@@ -22,10 +22,6 @@ interface Driver
      * - (float) longitude
      * - (float) latitude
      *
-     * @param  string  $street
-     * @param  string  $number
-     * @param  string  $city
-     * @param  string  $zip
      * @return Collection<string, float>
      *
      * @throws ResponseFailedException
@@ -41,8 +37,6 @@ interface Driver
      * - (string) city
      * - (string) zip
      *
-     * @param  float  $longitude
-     * @param  float  $latitude
      * @return Collection<string, string>
      *
      * @throws InvalidCoordinateException

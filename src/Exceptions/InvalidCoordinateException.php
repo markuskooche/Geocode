@@ -12,17 +12,13 @@ use Exception;
  */
 class InvalidCoordinateException extends Exception
 {
-    /* @var float */
     protected float $longitude;
 
-    /* @var float */
     protected float $latitude;
 
     /**
      * Create a new exception instance.
      *
-     * @param  float  $longitude
-     * @param  float  $latitude
      * @return void
      */
     public function __construct(float $longitude, float $latitude)
@@ -35,8 +31,6 @@ class InvalidCoordinateException extends Exception
 
     /**
      * Get the longitude.
-     *
-     * @return float
      */
     public function getLongitude(): float
     {
@@ -45,8 +39,6 @@ class InvalidCoordinateException extends Exception
 
     /**
      * Get the latitude.
-     *
-     * @return float
      */
     public function getLatitude(): float
     {

@@ -21,7 +21,6 @@ class OpenStreetMap implements Driver
 {
     use Coordinate, Address;
 
-    /** @var HttpFactory */
     protected HttpFactory $http;
 
     /**
@@ -40,10 +39,6 @@ class OpenStreetMap implements Driver
      * - (float) longitude
      * - (float) latitude
      *
-     * @param  string  $street
-     * @param  string  $number
-     * @param  string  $city
-     * @param  string  $zip
      * @return Collection<string, float>
      *
      * @throws ResponseFailedException
@@ -74,16 +69,16 @@ class OpenStreetMap implements Driver
         }
 
         // Initialize the coordinates collection
-        $coordinates = new Collection($data[0]);
+        $collection = new Collection($data[0]);
 
         // Check if the coordinates has all necessary keys
-        if (! $coordinates->has($keys)) {
+        if (! $collection->has($keys)) {
             throw new CoordinatesNotFoundException($response);
         }
 
         return new Collection([
-            'longitude' => $coordinates->get('lon'),
-            'latitude' => $coordinates->get('lat'),
+            'longitude' => $collection->get('lon'),
+            'latitude' => $collection->get('lat'),
         ]);
     }
 
@@ -95,8 +90,6 @@ class OpenStreetMap implements Driver
      * - (string) city
      * - (string) zip
      *
-     * @param  float  $longitude
-     * @param  float  $latitude
      * @return Collection<string, string>
      *
      * @throws InvalidCoordinateException
@@ -129,18 +122,18 @@ class OpenStreetMap implements Driver
         }
 
         // Initialize the address collection
-        $address = new Collection($data->get('address'));
+        $collection = new Collection($data->get('address'));
 
         // Check if the address has all necessary keys
-        if (! $address->has($keys)) {
+        if (! $collection->has($keys)) {
             throw new AddressNotFoundException($response);
         }
 
         return new Collection([
-            'street' => $address->get('road'),
-            'number' => $address->get('house_number'),
-            'city' => $address->get('city'),
-            'zip' => $address->get('postcode'),
+            'street' => $collection->get('road'),
+            'number' => $collection->get('house_number'),
+            'city' => $collection->get('city'),
+            'zip' => $collection->get('postcode'),
         ]);
     }
 }

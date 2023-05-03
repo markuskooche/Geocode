@@ -13,13 +13,11 @@ use Illuminate\Http\Client\Response;
  */
 class ResponseFailedException extends Exception
 {
-    /* @var Response */
     protected Response $response;
 
     /**
      * Create a new exception instance.
      *
-     * @param  Response  $response
      * @return void
      */
     public function __construct(Response $response)
@@ -31,8 +29,6 @@ class ResponseFailedException extends Exception
 
     /**
      * Get the response.
-     *
-     * @return Response
      */
     public function getResponse(): Response
     {

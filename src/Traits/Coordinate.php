@@ -16,9 +16,6 @@ trait Coordinate
      * Checks if the given longitude and latitude are valid.
      * Throws an InvalidCoordinateException if the longitude or latitude is not valid.
      *
-     * @param  float  $longitude
-     * @param  float  $latitude
-     *
      * @throws InvalidCoordinateException
      */
     private function checkCoordinate(float $longitude, float $latitude): void

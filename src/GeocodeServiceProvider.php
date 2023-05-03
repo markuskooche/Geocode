@@ -24,8 +24,6 @@ class GeocodeServiceProvider extends ServiceProvider
     /**
      * Bootstrap the geocode configuration.
      *
-     * @return void
-     *
      * @throws BindingResolutionException
      */
     public function boot(): void
@@ -39,7 +37,7 @@ class GeocodeServiceProvider extends ServiceProvider
                 $this->publishes([$source => config_path('geocode.php')], 'config');
             }
         }
-        // @phpstan-ignore-next-line
+        /** @phpstan-ignore-next-line */
         elseif ($this->app instanceof LumenApplication) {
             $this->app->boot();
         }
@@ -47,17 +45,15 @@ class GeocodeServiceProvider extends ServiceProvider
 
     /**
      * Register the geocode service provider.
-     *
-     * @return void
      */
     public function register(): void
     {
-        $this->app->singleton('geocode', fn () => new Geocode($this->configureDriver()));
+        $this->app->singleton('geocode', fn (): Geocode => new Geocode($this->configureDriver()));
 
         if ($this->app instanceof LaravelApplication) {
-            $this->app->booting(function () {
-                $loader = AliasLoader::getInstance();
-                $loader->alias('Geocode', GeocodeFacade::class);
+            $this->app->booting(function (): void {
+                $aliasLoader = AliasLoader::getInstance();
+                $aliasLoader->alias('Geocode', GeocodeFacade::class);
             });
         }
 
@@ -67,8 +63,6 @@ class GeocodeServiceProvider extends ServiceProvider
     /**
      * Private function to configure the driver from the config.
      * The fallback driver is nominatim openstreetmap.
-     *
-     * @return Driver
      */
     private function configureDriver(): Driver
     {
